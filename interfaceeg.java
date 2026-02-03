@@ -2,15 +2,27 @@ interface Animal {
     void sound();
 }
 
-class Dog implements Animal {
-    public void sound (){
-        System.out.println("dog barks");
+interface Pet {
+    void play();
+}
+
+class Dog implements Animal, Pet {
+
+    public void sound() {
+        System.out.println("Dog barks");
+    }
+
+    public void play() {
+        System.out.println("Dog loves to play");
     }
 }
+
 public class interfaceeg {
     public static void main(String[] args) {
-        Animal a = new Dog ();
-        a.sound();
+
+        Dog d = new Dog();
+
+        d.sound();
+        d.play();
     }
-    
 }
