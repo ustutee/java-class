@@ -1,24 +1,27 @@
-package rmi;
+package chat;
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.io.*;
+import java.net.Socket;
 
 public class Client {
-    public static void main(String[] args) {
-        try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 5050);
+    public static void main(String[] args) throws Exception {
 
-            Calculator stub = (Calculator) registry.lookup("CalcService");
+        Socket socket = new Socket("localhost", 5000);
 
-            int result = stub.add(5, 3);
-            System.out.println("Add: " + result);
+        BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream())
+        );
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-            System.out.println("Sub: " + stub.sub(10, 4));
-            System.out.println("Mul: " + stub.mul(6, 2));
-            System.out.println("Div: " + stub.div(8, 2));
+        String msg;
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (true) {
+            System.out.print("Enter message: ");
+            msg = userInput.readLine();
+
+            out.println(msg);             
+            System.out.println("Server: " + in.readLine()); 
         }
     }
 }
